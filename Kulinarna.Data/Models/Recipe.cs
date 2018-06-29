@@ -12,5 +12,7 @@ namespace Kulinarna.Data.Models
 		[Required]
 		public string Description { get; set; }
 		public int? TimeToMake { get; set; }
+		public float? QualityRating { get; set; }
+		public float? DifficultyRating { get; set; }
 	}
 }

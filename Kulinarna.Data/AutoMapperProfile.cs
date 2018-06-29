@@ -7,6 +7,9 @@ namespace Kulinarna.Data
 {
 	public class AutoMapperProfile : Profile
 	{
+		public AutoMapperProfile()
+		{
 
+		}
 	}
 }
