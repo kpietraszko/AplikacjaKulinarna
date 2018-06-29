@@ -1,19 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Kulinarna.Data.Models;
+﻿using AutoMapper;
 using Kulinarna.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 
 namespace Kulinarna.Api
 {
@@ -31,9 +24,15 @@ namespace Kulinarna.Api
 		{
 			services.AddCors();
 			services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-			services.AddDefaultIdentity<IdentityUser>()
-				.AddEntityFrameworkStores<ApplicationDbContext>()
-				.AddDefaultTokenProviders();
+			//services.AddDefaultIdentity<IdentityUser>()
+			//	.AddEntityFrameworkStores<ApplicationDbContext>()
+			//	.AddDefaultTokenProviders();
+			services.AddIdentityCore<IdentityUser>(options => { });
+			new IdentityBuilder(typeof(IdentityUser), services)
+				.AddSignInManager<SignInManager<IdentityUser>>()
+				.AddEntityFrameworkStores<ApplicationDbContext>();
+
+			services.AddAutoMapper();
 			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 		}
 

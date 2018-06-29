@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Kulinarna.Data.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -13,5 +14,14 @@ namespace Kulinarna.Repository
 		{
 		}
 
+		protected override void OnModelCreating(ModelBuilder builder)
+		{
+			base.OnModelCreating(builder);
+			//klucze główne
+			builder.Entity<RecipeIngredient>()
+				.HasKey(r => new { r.RecipeId, r.IngredientId });
+		}
+
+		public DbSet<RecipeIngredient> RecipesIngredients { get; set; }
 	}
 }
