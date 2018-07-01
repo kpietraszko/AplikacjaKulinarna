@@ -1,5 +1,6 @@
 ﻿using Kulinarna.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -105,6 +106,7 @@ namespace Kulinarna.Repository
 		public void GetRelatedCollectionsWithObject<TInclude>(T entity, Expression<Func<T, IEnumerable<TInclude>>> collection, Expression<Func<TInclude, object>> include) where TInclude : class
 		{
 			_context.Entry(entity).Collection(collection).Query().Include(include).Load();
+			
 		}
 	}
 }

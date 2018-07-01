@@ -9,5 +9,15 @@ namespace Kulinarna.Data.Models
 	{
 		[Required]
 		public string Name { get; set; }
+		public ICollection<RecipeIngredient> IngredientRecipes { get; set; }
+
+		public Ingredient(string name)
+		{
+			Name = name;
+		}
+		public override string ToString()
+		{
+			return Name;
+		}
 	}
 }

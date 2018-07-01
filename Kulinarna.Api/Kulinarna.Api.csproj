@@ -18,6 +18,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Kulinarna.Data\Kulinarna.Data.csproj" />
     <ProjectReference Include="..\Kulinarna.Repository\Kulinarna.Repository.csproj" />
+    <ProjectReference Include="..\Kulinarna.Services\Kulinarna.Services.csproj" />
   </ItemGroup>
 
 </Project>

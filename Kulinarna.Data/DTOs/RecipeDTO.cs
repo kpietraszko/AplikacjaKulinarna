@@ -1,12 +1,15 @@
-﻿using System;
+﻿using Kulinarna.Data.Models;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace Kulinarna.Data.Models
+namespace Kulinarna.Data.DTOs
 {
-	public class Recipe : ModelBase
+	public class RecipeDTO
 	{
+		public int Id { get; set; }
 		[Required]
 		public string Name { get; set; }
 		[Required]
@@ -14,6 +17,8 @@ namespace Kulinarna.Data.Models
 		public int? TimeToMake { get; set; }
 		public float? QualityRating { get; set; }
 		public float? DifficultyRating { get; set; }
+		[JsonIgnore]
 		public ICollection<RecipeIngredient> RecipeIngredients { get; set; }
+		public RecipeIngredientDTO[] Ingredients { get; set; }
 	}
 }

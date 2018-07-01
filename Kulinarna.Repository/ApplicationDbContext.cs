@@ -22,6 +22,8 @@ namespace Kulinarna.Repository
 				.HasKey(r => new { r.RecipeId, r.IngredientId });
 		}
 
+		public DbSet<Recipe> Recipes { get; set; }
+		public DbSet<Ingredient> Ingredients { get; set; }
 		public DbSet<RecipeIngredient> RecipesIngredients { get; set; }
 	}
 }

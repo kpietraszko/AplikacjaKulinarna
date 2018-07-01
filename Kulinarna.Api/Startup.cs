@@ -1,5 +1,8 @@
 ﻿using AutoMapper;
 using Kulinarna.Repository;
+using Kulinarna.Repository.Interfaces;
+using Kulinarna.Services.Interfaces;
+using Kulinarna.Services.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -24,6 +27,9 @@ namespace Kulinarna.Api
 		{
 			services.AddCors();
 			services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+			services.AddTransient<IRecipeService, RecipeService>();
+			services.AddTransient<IIngredientService, IngredientService>();
+			services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 			//services.AddDefaultIdentity<IdentityUser>()
 			//	.AddEntityFrameworkStores<ApplicationDbContext>()
 			//	.AddDefaultTokenProviders();

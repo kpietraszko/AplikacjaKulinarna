@@ -7,8 +7,8 @@ namespace Kulinarna.Data.Models
 {
 	public enum IngredientAmountUnit
 	{
-		gram,
-		liter,
+		g,
+		ml,
 		glass,
 		tsp,
 		tbsp
