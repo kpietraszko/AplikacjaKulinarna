@@ -56,10 +56,6 @@ namespace Kulinarna.Services.Services
 			var recipes = ((IIncludableQueryable<Recipe, object>)_recipeRepository.GetAll(r => r.RecipeIngredients)) //rzutowanie żeby mieć dostęp do ThenInclude
 				.ThenInclude(ri => ((RecipeIngredient)ri).Ingredient); //rzutowanie bo object
 
-			foreach (var recipe in recipes)
-			{
-				_recipeRepository.GetRelatedCollectionsWithObject(recipe, r => r.RecipeIngredients, ri => ri.Recipe);
-			}
 			var mappedRecipes = _mapper.Map<RecipeDTO[]>(recipes);
 			return new ServiceResult<RecipeDTO[]>(mappedRecipes);
 		}
