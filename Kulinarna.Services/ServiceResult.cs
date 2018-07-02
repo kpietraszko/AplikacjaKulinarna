@@ -4,20 +4,28 @@ using System.Text;
 
 namespace Kulinarna.Services
 {
-    public class ServiceResult<T>
-    {
-		public T SuccessResult { get; set; }
+	public class ServiceResult
+	{
 		public string[] Errors { get; set; }
 		public bool IsError { get { return Errors?.Length > 0; } }
 
-		public ServiceResult(T successResult)
+		public ServiceResult()
 		{
 			Errors = null;
-			SuccessResult = successResult;
 		}
 		public ServiceResult(params string[] errors)
 		{
 			Errors = errors;
 		}
+	}
+	public class ServiceResult<T> : ServiceResult
+	{
+		public T SuccessResult { get; set; }
+
+		public ServiceResult(T successResult)
+		{
+			SuccessResult = successResult;
+		}
+		public ServiceResult(params string[] errors) : base(errors) { }
 	}
 }

@@ -10,5 +10,7 @@ namespace Kulinarna.Services.Interfaces
 		ServiceResult<int> AddRecipe(RecipeAddDTO recipeData);
 		ServiceResult<RecipeDTO[]> GetAllRecipes();
 		ServiceResult<RecipeDTO> GetRecipe(int id);
+		ServiceResult<RecipeDTO> EditRecipe(int id, RecipeAddDTO recipeData);
+		ServiceResult DeleteRecipe(int id);
 	}
 }

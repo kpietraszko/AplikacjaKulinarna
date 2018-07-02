@@ -1,5 +1,6 @@
 ﻿using Kulinarna.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Query;
 using System;
 using System.Collections.Generic;
@@ -97,6 +98,16 @@ namespace Kulinarna.Repository
 				throw new ArgumentNullException("entity");
 			}
 			_dbSet.Update(entity);
+			_context.SaveChanges();
+		}
+
+		public void Update<U>(U entity, U newValues) where U : class //nie dziala dla modeli mających kolekcje
+		{
+			if (entity == null)
+			{
+				throw new ArgumentNullException("entity");
+			}
+			_context.Entry(entity).CurrentValues.SetValues(newValues);
 			_context.SaveChanges();
 		}
 

@@ -14,7 +14,7 @@ namespace Kulinarna.Api
 		{
 			CreateMap<RecipeAddDTO, Recipe>();
 			CreateMap<Recipe, RecipeDTO>()
-				.ForMember(r => r.Ingredients, o => o.MapFrom( //wyglada na to ze dziala
+				.ForMember(r => r.Ingredients, o => o.MapFrom( //ok
 					r => r.RecipeIngredients.Select(
 						i => new RecipeIngredientDTO { Name = i.Ingredient.ToString(), Amount = i.Amount, AmountUnit = (int)i.AmountUnit })
 					)

@@ -35,21 +35,23 @@ namespace Kulinarna.Api.Controllers
 
 		// POST: api/Recipe
 		[HttpPost]
-		public ActionResult<int> Post(RecipeAddDTO recipe)
+		public ActionResult<int> Post(RecipeAddDTO recipeData)
 		{
-			return this.HandleServiceResult(_recipeService.AddRecipe(recipe));
+			return this.HandleServiceResult(_recipeService.AddRecipe(recipeData));
 		}
 
 		// PUT: api/Recipe/5
 		[HttpPut("{id}")]
-		public void Put(int id, [FromBody] string value)
+		public ActionResult<RecipeDTO> Put(int id, RecipeAddDTO recipeData)
 		{
+			return this.HandleServiceResult(_recipeService.EditRecipe(id, recipeData));
 		}
 
 		// DELETE: api/ApiWithActions/5
 		[HttpDelete("{id}")]
-		public void Delete(int id)
+		public ActionResult Delete(int id)
 		{
+			return this.HandleServiceResult(_recipeService.DeleteRecipe(id));
 		}
 	}
 }

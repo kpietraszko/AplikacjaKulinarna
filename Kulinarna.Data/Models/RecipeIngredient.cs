@@ -11,7 +11,8 @@ namespace Kulinarna.Data.Models
 		ml,
 		glass,
 		tsp,
-		tbsp
+		tbsp,
+		pc
 	}
 	public class RecipeIngredient
 	{

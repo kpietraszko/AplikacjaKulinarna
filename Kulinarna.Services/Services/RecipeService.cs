@@ -30,27 +30,14 @@ namespace Kulinarna.Services.Services
 			_recipeIngredientRepostiory = recipeIngredientRepostiory;
 			_mapper = mapper;
 		}
-		public ServiceResult<int> AddRecipe(RecipeAddDTO recipeData)
+		public ServiceResult<int> AddRecipe(RecipeAddDTO recipeData) //sprawdzic
 		{
 			var newRecipe = _mapper.Map<Recipe>(recipeData);
-			newRecipe.RecipeIngredients = new List<RecipeIngredient>();
 			_recipeRepository.Insert(newRecipe);
-			foreach (var ingredientData in recipeData.Ingredients)
-			{
-				var ingredient = _ingredientService.GetOrCreateIngredient(ingredientData.Name);
-				newRecipe.RecipeIngredients.Add(
-					new RecipeIngredient
-					{
-						RecipeId = newRecipe.Id,
-						IngredientId = ingredient.Id,
-						Amount = ingredientData.Amount,
-						AmountUnit = ingredientData.AmountUnit
-					});
-				_recipeRepository.Update(newRecipe); //potrzebne zeby zapisac zmiany w RecipeIngredients
-			}
+			newRecipe.RecipeIngredients = GetOrCreateIngredients(recipeData.Ingredients, newRecipe.Id);
+			_recipeRepository.Update(newRecipe);
 			return new ServiceResult<int>(newRecipe.Id);
 		}
-
 		public ServiceResult<RecipeDTO[]> GetAllRecipes() //dziala
 		{
 			var recipes = _recipeRepository.GetAll(
@@ -62,10 +49,76 @@ namespace Kulinarna.Services.Services
 
 		public ServiceResult<RecipeDTO> GetRecipe(int id) //dziala
 		{
-			var recipe = _recipeRepository.GetBy(r => r.Id == id, 
+			var recipe = _recipeRepository.GetBy(r => r.Id == id,
 				r => r.RecipeIngredients, ri => ((RecipeIngredient)ri).Ingredient);
 			var mappedRecipe = _mapper.Map<RecipeDTO>(recipe);
 			return new ServiceResult<RecipeDTO>(mappedRecipe);
+		}
+
+		public ServiceResult<RecipeDTO> EditRecipe(int id, RecipeAddDTO recipeData)
+		{
+			var existingRecipe = _recipeRepository.GetBy(r => r.Id == id);
+			if (existingRecipe == null)
+			{
+				return new ServiceResult<RecipeDTO>("Recipe doesn't exist");
+			}
+			existingRecipe.Name = recipeData.Name;
+			existingRecipe.Description = recipeData.Description;
+			existingRecipe.TimeToMake = recipeData.TimeToMake;
+			existingRecipe.RecipeIngredients = GetOrCreateIngredients(recipeData.Ingredients, existingRecipe.Id);
+			_recipeRepository.Update(existingRecipe);
+			return new ServiceResult<RecipeDTO>(GetRecipe(existingRecipe.Id).SuccessResult);
+		}
+		private Recipe CreateRecipe(RecipeAddDTO recipeData)
+		{
+			var newRecipe = _mapper.Map<Recipe>(recipeData);
+			newRecipe.RecipeIngredients = new List<RecipeIngredient>();
+			foreach (var ingredientData in recipeData.Ingredients)
+			{
+				var ingredient = _ingredientService.GetOrCreateIngredient(ingredientData.Name);
+				newRecipe.RecipeIngredients.Add(
+					new RecipeIngredient
+					{
+						RecipeId = newRecipe.Id,
+						IngredientId = ingredient.Id,
+						Amount = ingredientData.Amount,
+						AmountUnit = ingredientData.AmountUnit
+					});
+			}
+			return newRecipe;
+		}
+		private List<RecipeIngredient> GetOrCreateIngredients(IngredientAddDTO[] ingredientsData, int recipeId)
+		{
+			var recipeIngredients = new List<RecipeIngredient>();
+			var existingIngredients = _recipeIngredientRepostiory.GetAllBy(ri => ri.RecipeId == recipeId).ToArray();
+			foreach (var recipeIngredient in existingIngredients)
+			{
+				_recipeIngredientRepostiory.Delete(recipeIngredient);
+			}
+			foreach (var ingredientData in ingredientsData)
+			{
+				var ingredient = _ingredientService.GetOrCreateIngredient(ingredientData.Name);
+				recipeIngredients.Add(
+					new RecipeIngredient
+					{
+						RecipeId = recipeId,
+						IngredientId = ingredient.Id,
+						Amount = ingredientData.Amount,
+						AmountUnit = ingredientData.AmountUnit
+					});
+			}
+			return recipeIngredients;
+		}
+
+		public ServiceResult DeleteRecipe(int id)
+		{
+			var recipe = _recipeRepository.GetBy(r => r.Id == id);
+			if (recipe == null)
+			{
+				return new ServiceResult<RecipeDTO>("Recipe doesn't exist");
+			}
+			_recipeRepository.Delete(recipe);
+			return new ServiceResult();
 		}
 	}
 }

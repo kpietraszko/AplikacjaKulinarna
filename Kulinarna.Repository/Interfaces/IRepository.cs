@@ -18,6 +18,7 @@ namespace Kulinarna.Repository.Interfaces
 		bool Exists(Expression<Func<T, bool>> expression);
 		void Insert(T entity);
 		void Update(T entity);
+		void Update<U>(U entity, U newValues) where U : class;
 		void Delete(Expression<Func<T, bool>> expression);
 		void Delete(T entity);
 		void GetRelatedCollections(T entity, params Expression<Func<T, IEnumerable<object>>>[] collections);
