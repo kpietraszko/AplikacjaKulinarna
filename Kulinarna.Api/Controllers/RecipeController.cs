@@ -28,9 +28,9 @@ namespace Kulinarna.Api.Controllers
 
 		// GET: api/Recipe/5
 		[HttpGet("{id}", Name = "Get")]
-		public string Get(int id)
+		public ActionResult<RecipeDTO> Get(int id)
 		{
-			return "value";
+			return this.HandleServiceResult(_recipeService.GetRecipe(id));
 		}
 
 		// POST: api/Recipe

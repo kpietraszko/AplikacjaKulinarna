@@ -35,6 +35,13 @@ namespace Kulinarna.Repository
 			return query;
 		}
 
+		public IEnumerable<T> GetAll(Expression<Func<T, object>> include, Expression<Func<object, object>> nestedInclude)
+		{
+			IQueryable<T> query = _dbSet;
+			query = query.Include(include).ThenInclude(nestedInclude);
+			return query;
+		}
+
 		public IEnumerable<T> GetAllBy(Expression<Func<T, bool>> getBy, params Expression<Func<T, object>>[] includes)
 		{
 			IQueryable<T> query = _dbSet;
@@ -46,6 +53,14 @@ namespace Kulinarna.Repository
 			return result;
 		}
 
+		public IEnumerable<T> GetAllBy(Expression<Func<T, bool>> getBy, Expression<Func<T, object>> include, Expression<Func<object, object>> nestedInclude)
+		{
+			IQueryable<T> query = _dbSet;
+			query = query.Include(include).ThenInclude(nestedInclude);
+			var result = query.Where(getBy);
+			return result;
+		}
+
 		public T GetBy(Expression<Func<T, bool>> getBy, params Expression<Func<T, object>>[] includes)
 		{
 			IQueryable<T> query = _dbSet;
@@ -53,6 +68,14 @@ namespace Kulinarna.Repository
 			{
 				query = query.Include(include);
 			}
+			var result = query.FirstOrDefault(getBy);
+			return result;
+		}
+		//Expression<Func<object, object>> nestedInclude
+		public T GetBy(Expression<Func<T, bool>> getBy, Expression<Func<T, object>> include, Expression<Func<object, object>> nestedInclude)
+		{
+			IQueryable<T> query = _dbSet;
+			query = query.Include(include).ThenInclude(nestedInclude);
 			var result = query.FirstOrDefault(getBy);
 			return result;
 		}

@@ -51,13 +51,21 @@ namespace Kulinarna.Services.Services
 			return new ServiceResult<int>(newRecipe.Id);
 		}
 
-		public ServiceResult<RecipeDTO[]> GetAllRecipes()
+		public ServiceResult<RecipeDTO[]> GetAllRecipes() //dziala
 		{
-			var recipes = ((IIncludableQueryable<Recipe, object>)_recipeRepository.GetAll(r => r.RecipeIngredients)) //rzutowanie żeby mieć dostęp do ThenInclude
-				.ThenInclude(ri => ((RecipeIngredient)ri).Ingredient); //rzutowanie bo object
+			var recipes = _recipeRepository.GetAll(
+				r => r.RecipeIngredients, ri => ((RecipeIngredient)ri).Ingredient);
 
 			var mappedRecipes = _mapper.Map<RecipeDTO[]>(recipes);
 			return new ServiceResult<RecipeDTO[]>(mappedRecipes);
+		}
+
+		public ServiceResult<RecipeDTO> GetRecipe(int id) //dziala
+		{
+			var recipe = _recipeRepository.GetBy(r => r.Id == id, 
+				r => r.RecipeIngredients, ri => ((RecipeIngredient)ri).Ingredient);
+			var mappedRecipe = _mapper.Map<RecipeDTO>(recipe);
+			return new ServiceResult<RecipeDTO>(mappedRecipe);
 		}
 	}
 }

@@ -10,8 +10,11 @@ namespace Kulinarna.Repository.Interfaces
     public interface IRepository<T> //T to jeden z modeli
     {
 		IEnumerable<T> GetAll(params Expression<Func<T, object>>[] includes);
+		IEnumerable<T> GetAll(Expression<Func<T, object>> include, Expression<Func<object, object>> nestedInclude);
 		IEnumerable<T> GetAllBy(Expression<Func<T, bool>> getBy, params Expression<Func<T, object>>[] includes);
+		IEnumerable<T> GetAllBy(Expression<Func<T, bool>> getBy, Expression<Func<T, object>> include, Expression<Func<object, object>> nestedInclude);
 		T GetBy(Expression<Func<T, bool>> getBy, params Expression<Func<T, object>>[] includes);
+		T GetBy(Expression<Func<T, bool>> getBy, Expression<Func<T, object>> include, Expression<Func<object, object>> nestedInclude);
 		bool Exists(Expression<Func<T, bool>> expression);
 		void Insert(T entity);
 		void Update(T entity);
