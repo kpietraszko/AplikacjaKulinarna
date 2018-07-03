@@ -38,10 +38,10 @@ namespace Kulinarna.Services.Services
 			_recipeRepository.Update(newRecipe);
 			return new ServiceResult<int>(newRecipe.Id);
 		}
-		public ServiceResult<RecipeDTO[]> GetAllRecipes() //dziala
+		public ServiceResult<RecipeDTO[]> GetAllRecipes(int pageIndex, int pageSize) //dziala z paginacją
 		{
 			var recipes = _recipeRepository.GetAll(
-				r => r.RecipeIngredients, ri => ((RecipeIngredient)ri).Ingredient);
+				r => r.RecipeIngredients, ri => ((RecipeIngredient)ri).Ingredient, pageIndex, pageSize);
 
 			var mappedRecipes = _mapper.Map<RecipeDTO[]>(recipes);
 			return new ServiceResult<RecipeDTO[]>(mappedRecipes);
@@ -120,5 +120,42 @@ namespace Kulinarna.Services.Services
 			_recipeRepository.Delete(recipe);
 			return new ServiceResult();
 		}
+
+		public ServiceResult<RecipeDTO[]> SearchRecipes(RecipeSearchDTO searchData, int pageIndex = 0, int pageSize = 0)
+		{
+			var recipes = _recipeRepository.GetAllBy(r => //MatchesSearchQuery(r, searchData),
+				(String.IsNullOrWhiteSpace(searchData.RecipeName) || r.Name.ToLower().Contains(searchData.RecipeName.ToLower())) &&
+				(searchData.MaxTimeToMake == null || r.TimeToMake == null || r.TimeToMake <= searchData.MaxTimeToMake) &&
+				searchData.Ingredients.Select(i => i.ToLower().Trim()).Except(
+					r.RecipeIngredients.Select(ri => ri.Ingredient.Name.ToLower()))
+					.Count() == 0, //oddzielna funkcja nie działa, więc muszę tak
+					r => r.RecipeIngredients, ri => ((RecipeIngredient) ri).Ingredient, pageIndex, pageSize);
+
+			var mappedRecipes = _mapper.Map<RecipeDTO[]>(recipes);
+			return new ServiceResult<RecipeDTO[]>(mappedRecipes);
+		}
+		//bool MatchesSearchQuery(Recipe recipe, RecipeSearchDTO searchQuery) //nie działa, NRE L155
+		//{
+		//	if (!String.IsNullOrWhiteSpace(searchQuery.RecipeName))
+		//	{
+		//		if (!recipe.Name.ToLower().Contains(searchQuery.RecipeName.ToLower()))
+		//		{
+		//			return false;
+		//		}
+		//	}
+		//	if (searchQuery.MaxTimeToMake != null && recipe.TimeToMake != null
+		//		&& recipe.TimeToMake > searchQuery.MaxTimeToMake)
+		//	{
+		//		return false;
+		//	}
+		//	var recipeIngredients = recipe.RecipeIngredients.Select(ri => ri.Ingredient.Name);
+		//	foreach (var ingredient in searchQuery.Ingredients)
+		//	{
+		//		if (recipeIngredients.FirstOrDefault(ri => ri.ToLower() == ingredient.ToLower().Trim()) == null)
+		//			return false; // .RecipeIngredients jest null, wyglada na to ze Include nie dziala? //stepując kod działa WTF
+		//	}
+		//	return true;
+
+		//}
 	}
 }

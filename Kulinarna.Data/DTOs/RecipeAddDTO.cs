@@ -8,6 +8,7 @@ namespace Kulinarna.Data.DTOs
 	public class RecipeAddDTO
 	{
 		[Required]
+		[RegularExpression("^[a-zA-ZąćęłńóśźżĄĘŁŃÓŚŹŻ ]*$")]
 		public string Name { get; set; }
 		[Required]
 		public string Description { get; set; }

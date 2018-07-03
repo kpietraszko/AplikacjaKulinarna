@@ -36,13 +36,6 @@ namespace Kulinarna.Repository
 			return query;
 		}
 
-		public IEnumerable<T> GetAll(Expression<Func<T, object>> include, Expression<Func<object, object>> nestedInclude)
-		{
-			IQueryable<T> query = _dbSet;
-			query = query.Include(include).ThenInclude(nestedInclude);
-			return query;
-		}
-
 		public IEnumerable<T> GetAllBy(Expression<Func<T, bool>> getBy, params Expression<Func<T, object>>[] includes)
 		{
 			IQueryable<T> query = _dbSet;
@@ -54,12 +47,35 @@ namespace Kulinarna.Repository
 			return result;
 		}
 
-		public IEnumerable<T> GetAllBy(Expression<Func<T, bool>> getBy, Expression<Func<T, object>> include, Expression<Func<object, object>> nestedInclude)
+		public IEnumerable<T> GetAll(Expression<Func<T, object>> include, Expression<Func<object, object>> nestedInclude,
+			int pageIndex = 0, int pageSize = 0)
 		{
 			IQueryable<T> query = _dbSet;
-			query = query.Include(include).ThenInclude(nestedInclude);
-			var result = query.Where(getBy);
-			return result;
+			query = query.Skip(pageIndex * pageSize).Include(include).ThenInclude(nestedInclude);
+			if (pageSize > 0)
+			{
+				query = query.Take(pageSize);
+			}
+			return query;
+		}
+
+		public IEnumerable<T> GetAllBy(Expression<Func<T, bool>> getBy, Expression<Func<T, object>> include,
+			Expression<Func<object, object>> nestedInclude, int pageIndex, int pageSize)
+		{
+			if (pageSize == 0)
+			{
+				pageSize = int.MaxValue;
+			}
+			IQueryable<T> query = _dbSet;
+			if (include != null)
+			{
+				query = query.Include(include);
+				if (nestedInclude != null)
+				{
+					query = ((IIncludableQueryable<T, object>)query).ThenInclude(nestedInclude);
+				}
+			}
+			return query.Where(getBy).Skip(pageIndex * pageSize).Take(pageSize).ToArray();
 		}
 
 		public T GetBy(Expression<Func<T, bool>> getBy, params Expression<Func<T, object>>[] includes)
@@ -140,7 +156,7 @@ namespace Kulinarna.Repository
 		public void GetRelatedCollectionsWithObject<TInclude>(T entity, Expression<Func<T, IEnumerable<TInclude>>> collection, Expression<Func<TInclude, object>> include) where TInclude : class
 		{
 			_context.Entry(entity).Collection(collection).Query().Include(include).Load();
-			
+
 		}
 	}
 }

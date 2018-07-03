@@ -15,6 +15,10 @@ namespace Kulinarna.Data.Models
 		{
 			Name = name;
 		}
+		public Ingredient()
+		{
+
+		}
 		public override string ToString()
 		{
 			return Name;

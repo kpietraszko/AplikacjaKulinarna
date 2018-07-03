@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Kulinarna.Data.DTOs;
@@ -21,9 +22,9 @@ namespace Kulinarna.Api.Controllers
 		}
 		// GET: api/Recipe
 		[HttpGet]
-		public ActionResult<RecipeDTO[]> Get()
+		public ActionResult<RecipeDTO[]> Get(int pageIndex = 0, int pageSize = 0) //pageIndex 0 to pierwsza strona
 		{
-			return this.HandleServiceResult(_recipeService.GetAllRecipes());
+			return this.HandleServiceResult(_recipeService.GetAllRecipes(pageIndex, pageSize));
 		}
 
 		// GET: api/Recipe/5
@@ -47,11 +48,17 @@ namespace Kulinarna.Api.Controllers
 			return this.HandleServiceResult(_recipeService.EditRecipe(id, recipeData));
 		}
 
-		// DELETE: api/ApiWithActions/5
+		// DELETE: api/Recipe/5
 		[HttpDelete("{id}")]
 		public ActionResult Delete(int id)
 		{
 			return this.HandleServiceResult(_recipeService.DeleteRecipe(id));
+		}
+		// POST: api/Recipe/Search
+		[HttpPost("[action]")]
+		public ActionResult<RecipeDTO[]> Search(RecipeSearchDTO searchData, int pageIndex = 0, int pageSize = 0)
+		{
+			return this.HandleServiceResult(_recipeService.SearchRecipes(searchData, pageIndex, pageSize));
 		}
 	}
 }

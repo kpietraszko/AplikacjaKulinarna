@@ -4,14 +4,16 @@ using Kulinarna.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Kulinarna.Repository.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180703094916_seed3")]
+    partial class seed3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -38,16 +40,7 @@ namespace Kulinarna.Repository.Migrations
                         new { Id = 3, Name = "chleb biały" },
                         new { Id = 4, Name = "masło" },
                         new { Id = 5, Name = "woda" },
-                        new { Id = 6, Name = "lód" },
-                        new { Id = 7, Name = "czarna herbata" },
-                        new { Id = 8, Name = "cukier" },
-                        new { Id = 9, Name = "zupka chińska" },
-                        new { Id = 10, Name = "kawa rozpuszczalna" },
-                        new { Id = 11, Name = "smalec" },
-                        new { Id = 12, Name = "konserwa turystyczna" },
-                        new { Id = 13, Name = "kaszanka" },
-                        new { Id = 14, Name = "parówka" },
-                        new { Id = 15, Name = "sól" }
+                        new { Id = 6, Name = "lód" }
                     );
                 });
 
@@ -80,12 +73,7 @@ namespace Kulinarna.Repository.Migrations
                     b.HasData(
                         new { Id = 1, Description = "Płatki wsypać do miski i zalać mlekiem.", DifficultyVotes = 0, Name = "Płatki z mlekiem", QualityVotes = 0, TimeToMake = 2 },
                         new { Id = 2, Description = "Wsypać lód do szklanki i zalać wodą.", DifficultyVotes = 0, Name = "Woda z lodem", QualityVotes = 0, TimeToMake = 1 },
-                        new { Id = 3, Description = "Pokroić chleb w kromki i posmarować je masłem.", DifficultyVotes = 0, Name = "Chleb z masłem", QualityVotes = 0, TimeToMake = 3 },
-                        new { Id = 4, Description = "Herbatę zaparzyć zgodnie z instrukcją na opakowaniu, posłodzić", DifficultyVotes = 0, Name = "Herbata czarna z cukrem", QualityVotes = 0, TimeToMake = 5 },
-                        new { Id = 5, Description = "Zawartość opakowania wsypać do miski i zalać wrzącą wodą. Przykryć i odczekać 5 min.", DifficultyVotes = 0, Name = "Zupka chińska", QualityVotes = 0, TimeToMake = 7 },
-                        new { Id = 6, Description = "Kawę zalać wrzącą wodą, dodać mleko i cukier", DifficultyVotes = 0, Name = "Kawa rozpuszczalna z mlekiem i cukrem", QualityVotes = 0, TimeToMake = 5 },
-                        new { Id = 7, Description = "Rozgrzać smalec na patelni, wrzucić kaszankę i konserwę turystyczną. Oddać psu.", DifficultyVotes = 0, Name = "Konserwa z kaszanką", QualityVotes = 0, TimeToMake = 10 },
-                        new { Id = 8, Description = "Parówki zalać wrzątkiem. Przykryć i odczekać 5 min. Doprawić solą.", DifficultyVotes = 0, Name = "Zupa parówkowa", QualityVotes = 0, TimeToMake = 8 }
+                        new { Id = 3, Description = "Pokroić chleb w kromki i posmarować je masłem.", DifficultyVotes = 0, Name = "Chleb z masłem", QualityVotes = 0, TimeToMake = 3 }
                     );
                 });
 
@@ -111,22 +99,7 @@ namespace Kulinarna.Repository.Migrations
                         new { RecipeId = 2, IngredientId = 5, Amount = 1m, AmountUnit = 2 },
                         new { RecipeId = 2, IngredientId = 6, Amount = 20m, AmountUnit = 0 },
                         new { RecipeId = 3, IngredientId = 3, Amount = 100m, AmountUnit = 0 },
-                        new { RecipeId = 3, IngredientId = 4, Amount = 30m, AmountUnit = 0 },
-                        new { RecipeId = 4, IngredientId = 5, Amount = 1m, AmountUnit = 2 },
-                        new { RecipeId = 4, IngredientId = 7, Amount = 1m, AmountUnit = 3 },
-                        new { RecipeId = 4, IngredientId = 8, Amount = 1m, AmountUnit = 3 },
-                        new { RecipeId = 5, IngredientId = 5, Amount = 400m, AmountUnit = 1 },
-                        new { RecipeId = 5, IngredientId = 9, Amount = 1m, AmountUnit = 5 },
-                        new { RecipeId = 6, IngredientId = 5, Amount = 1m, AmountUnit = 2 },
-                        new { RecipeId = 6, IngredientId = 10, Amount = 10m, AmountUnit = 0 },
-                        new { RecipeId = 6, IngredientId = 2, Amount = 20m, AmountUnit = 1 },
-                        new { RecipeId = 6, IngredientId = 8, Amount = 1m, AmountUnit = 4 },
-                        new { RecipeId = 7, IngredientId = 11, Amount = 1m, AmountUnit = 4 },
-                        new { RecipeId = 7, IngredientId = 12, Amount = 200m, AmountUnit = 0 },
-                        new { RecipeId = 7, IngredientId = 13, Amount = 2m, AmountUnit = 5 },
-                        new { RecipeId = 8, IngredientId = 5, Amount = 500m, AmountUnit = 1 },
-                        new { RecipeId = 8, IngredientId = 14, Amount = 3m, AmountUnit = 5 },
-                        new { RecipeId = 8, IngredientId = 15, Amount = 5m, AmountUnit = 0 }
+                        new { RecipeId = 3, IngredientId = 4, Amount = 30m, AmountUnit = 0 }
                     );
                 });
 
