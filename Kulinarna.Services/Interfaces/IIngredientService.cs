@@ -8,5 +8,6 @@ namespace Kulinarna.Services.Interfaces
 	public interface IIngredientService
 	{
 		Ingredient GetOrCreateIngredient(string name);
+		ServiceResult<IEnumerable<string>> GetAllIngredients();
 	}
 }

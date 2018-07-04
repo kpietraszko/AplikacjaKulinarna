@@ -13,8 +13,7 @@ namespace Kulinarna.Api.Controllers
 		{
 			if (serviceResult.IsError)
 			{
-				var result = new ObjectResult(serviceResult.Errors);
-				result.StatusCode = 422;
+				var result = new BadRequestObjectResult(serviceResult.Errors);
 				return result;
 			}
 			return serviceResult.SuccessResult;
@@ -23,8 +22,7 @@ namespace Kulinarna.Api.Controllers
 		{
 			if (serviceResult.IsError)
 			{
-				var result = new ObjectResult(serviceResult.Errors);
-				result.StatusCode = 422;
+				var result = new BadRequestObjectResult(serviceResult.Errors);
 				return result;
 			}
 			return new OkResult();

@@ -13,6 +13,6 @@ namespace Kulinarna.Data.DTOs
 		[Required]
 		public string Description { get; set; }
 		public int? TimeToMake { get; set; }
-		public IngredientAddDTO[] Ingredients { get; set; }
+		public IngredientAddDTO[] Ingredients { get; set; } = new IngredientAddDTO[0];
 	}
 }

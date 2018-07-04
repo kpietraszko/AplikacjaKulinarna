@@ -28,5 +28,11 @@ namespace Kulinarna.Services.Services
 			_ingredientRepository.Insert(ingredient);
 			return ingredient;
 		}
+
+		public ServiceResult<IEnumerable<string>> GetAllIngredients()
+		{
+			var ingredients = _ingredientRepository.GetAll().Select(i => i.Name);
+			return new ServiceResult<IEnumerable<string>>(ingredients);
+		}
 	}
 }

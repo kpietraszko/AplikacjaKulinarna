@@ -28,7 +28,7 @@ namespace Kulinarna.Api.Controllers
 		}
 
 		// GET: api/Recipe/5
-		[HttpGet("{id}", Name = "Get")]
+		[HttpGet("{id}")]
 		public ActionResult<RecipeDTO> Get(int id)
 		{
 			return this.HandleServiceResult(_recipeService.GetRecipe(id));
@@ -38,6 +38,11 @@ namespace Kulinarna.Api.Controllers
 		[HttpPost]
 		public ActionResult<int> Post(RecipeAddDTO recipeData)
 		{
+			if (recipeData.Ingredients.Length == 0)
+			{
+				ModelState.AddModelError("Ingredients", "At least 1 ingredient is required.");
+				return new BadRequestObjectResult(ModelState);
+			}
 			return this.HandleServiceResult(_recipeService.AddRecipe(recipeData));
 		}
 

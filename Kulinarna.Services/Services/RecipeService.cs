@@ -123,12 +123,12 @@ namespace Kulinarna.Services.Services
 
 		public ServiceResult<RecipeDTO[]> SearchRecipes(RecipeSearchDTO searchData, int pageIndex = 0, int pageSize = 0)
 		{
-			var recipes = _recipeRepository.GetAllBy(r => //MatchesSearchQuery(r, searchData),
+			var recipes = _recipeRepository.GetAllBy(r => //MatchesSearchQuery(r, searchData), //oddzielna funkcja nie działa, więc muszę tak
 				(String.IsNullOrWhiteSpace(searchData.RecipeName) || r.Name.ToLower().Contains(searchData.RecipeName.ToLower())) &&
 				(searchData.MaxTimeToMake == null || r.TimeToMake == null || r.TimeToMake <= searchData.MaxTimeToMake) &&
-				searchData.Ingredients.Select(i => i.ToLower().Trim()).Except(
-					r.RecipeIngredients.Select(ri => ri.Ingredient.Name.ToLower()))
-					.Count() == 0, //oddzielna funkcja nie działa, więc muszę tak
+				searchData.Ingredients.Select(i => i.ToLower().Trim()).Except( 
+					r.RecipeIngredients.Select(ri => ri.Ingredient.Name.ToLower())) //zwraca kolekcję składników niezawartych w tym przepisie
+					.Count() == 0,
 					r => r.RecipeIngredients, ri => ((RecipeIngredient) ri).Ingredient, pageIndex, pageSize);
 
 			var mappedRecipes = _mapper.Map<RecipeDTO[]>(recipes);
