@@ -134,28 +134,53 @@ namespace Kulinarna.Services.Services
 			var mappedRecipes = _mapper.Map<RecipeDTO[]>(recipes);
 			return new ServiceResult<RecipeDTO[]>(mappedRecipes);
 		}
-		//bool MatchesSearchQuery(Recipe recipe, RecipeSearchDTO searchQuery) //nie działa, NRE L155
-		//{
-		//	if (!String.IsNullOrWhiteSpace(searchQuery.RecipeName))
-		//	{
-		//		if (!recipe.Name.ToLower().Contains(searchQuery.RecipeName.ToLower()))
-		//		{
-		//			return false;
-		//		}
-		//	}
-		//	if (searchQuery.MaxTimeToMake != null && recipe.TimeToMake != null
-		//		&& recipe.TimeToMake > searchQuery.MaxTimeToMake)
-		//	{
-		//		return false;
-		//	}
-		//	var recipeIngredients = recipe.RecipeIngredients.Select(ri => ri.Ingredient.Name);
-		//	foreach (var ingredient in searchQuery.Ingredients)
-		//	{
-		//		if (recipeIngredients.FirstOrDefault(ri => ri.ToLower() == ingredient.ToLower().Trim()) == null)
-		//			return false; // .RecipeIngredients jest null, wyglada na to ze Include nie dziala? //stepując kod działa WTF
-		//	}
-		//	return true;
 
-		//}
+		public ServiceResult<float> GetQualityRating(int id)
+		{
+			var recipe = _recipeRepository.GetBy(r => r.Id == id);
+			if (recipe == null)
+			{
+				return new ServiceResult<float>("Recipe doesn't exist");
+			}
+			return new ServiceResult<float>(recipe.QualityRating);
+		}
+
+		public ServiceResult<float> GetDifficultyRating(int id)
+		{
+			var recipe = _recipeRepository.GetBy(r => r.Id == id);
+			if (recipe == null)
+			{
+				return new ServiceResult<float>("Recipe doesn't exist");
+			}
+			return new ServiceResult<float>(recipe.DifficultyRating);
+		}
+
+		public ServiceResult AddQualityRating(int id, float rating)
+		{
+			var recipe = _recipeRepository.GetBy(r => r.Id == id);
+			if (recipe == null)
+			{
+				return new ServiceResult<float>("Recipe doesn't exist");
+			}
+			var currentNumberOfVotes = recipe.QualityVotes;
+			var newAverageRating = recipe.QualityRating + (rating - recipe.QualityRating) / (currentNumberOfVotes + 1); //sprawdzić
+			recipe.QualityRating = newAverageRating;
+			_recipeRepository.Update(recipe);
+			return new ServiceResult();
+		}
+
+		public ServiceResult AddDifficultyRating(int id, float rating)
+		{
+			var recipe = _recipeRepository.GetBy(r => r.Id == id);
+			if (recipe == null)
+			{
+				return new ServiceResult<float>("Recipe doesn't exist");
+			}
+			var currentNumberOfVotes = recipe.DifficultyVotes;
+			var newAverageRating = recipe.DifficultyRating + (rating - recipe.DifficultyRating) / (currentNumberOfVotes + 1); //sprawdzić
+			recipe.DifficultyRating = newAverageRating;
+			_recipeRepository.Update(recipe);
+			return new ServiceResult();
+		}
 	}
 }

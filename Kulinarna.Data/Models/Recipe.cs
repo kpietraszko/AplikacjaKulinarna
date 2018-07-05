@@ -12,9 +12,9 @@ namespace Kulinarna.Data.Models
 		[Required]
 		public string Description { get; set; }
 		public int? TimeToMake { get; set; }
-		public float? QualityRating { get; set; }
+		public float QualityRating { get; set; }
 		public int QualityVotes { get; set; }
-		public float? DifficultyRating { get; set; }
+		public float DifficultyRating { get; set; }
 		public int DifficultyVotes { get; set; }
 		public ICollection<RecipeIngredient> RecipeIngredients { get; set; }
 	}
