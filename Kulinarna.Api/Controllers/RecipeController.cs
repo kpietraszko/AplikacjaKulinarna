@@ -65,19 +65,26 @@ namespace Kulinarna.Api.Controllers
 		{
 			return this.HandleServiceResult(_recipeService.SearchRecipes(searchData, pageIndex, pageSize));
 		}
-		[HttpGet("{id}")]
+		[HttpGet("{id}/[action]")]
 		public ActionResult<float> QualityRating(int id)
 		{
 			return this.HandleServiceResult(_recipeService.GetQualityRating(id));
 		}
-		[HttpGet("{id}")]
+		[HttpGet("{id}/[action]")]
 		public ActionResult<float> DifficultyRating(int id)
 		{
 			return this.HandleServiceResult(_recipeService.GetDifficultyRating(id));
 		}
-		[HttpPost("{id}")]
+		[HttpPost("{id}/[action]")]
 		public ActionResult QualityRating(int id, float rating)
 		{
+			return this.HandleServiceResult(_recipeService.AddQualityRating(id, rating));
 		}
+		[HttpPost("{id}/[action]")]
+		public ActionResult DifficultyRating(int id, float rating)
+		{
+			return this.HandleServiceResult(_recipeService.AddDifficultyRating(id, rating));
+		}
+
 	}
 }

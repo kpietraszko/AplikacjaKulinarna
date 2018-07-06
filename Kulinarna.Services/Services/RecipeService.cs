@@ -162,9 +162,10 @@ namespace Kulinarna.Services.Services
 			{
 				return new ServiceResult<float>("Recipe doesn't exist");
 			}
-			var currentNumberOfVotes = recipe.QualityVotes;
+			var currentNumberOfVotes = recipe.NumberOfQualityRatings;
 			var newAverageRating = recipe.QualityRating + (rating - recipe.QualityRating) / (currentNumberOfVotes + 1); //sprawdzić
 			recipe.QualityRating = newAverageRating;
+			recipe.NumberOfQualityRatings++;
 			_recipeRepository.Update(recipe);
 			return new ServiceResult();
 		}
@@ -176,9 +177,10 @@ namespace Kulinarna.Services.Services
 			{
 				return new ServiceResult<float>("Recipe doesn't exist");
 			}
-			var currentNumberOfVotes = recipe.DifficultyVotes;
+			var currentNumberOfVotes = recipe.NumberOfDifficultyRatings;
 			var newAverageRating = recipe.DifficultyRating + (rating - recipe.DifficultyRating) / (currentNumberOfVotes + 1); //sprawdzić
 			recipe.DifficultyRating = newAverageRating;
+			recipe.NumberOfDifficultyRatings++;
 			_recipeRepository.Update(recipe);
 			return new ServiceResult();
 		}

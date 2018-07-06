@@ -39,7 +39,7 @@ namespace Kulinarna.Repository
 				new Ingredient("sól") { Id = 15 }
 				);
 			builder.Entity<Recipe>().HasData(
-				new Recipe { Id = 1, Name = "Płatki z mlekiem", Description = "Płatki wsypać do miski i zalać mlekiem.", TimeToMake = 2 },
+				new Recipe { Id = 1, Name = "Płatki z mlekiem", Description = "Płatki wsypać do miski i zalać mlekiem.", TimeToMake = 2, QualityRating = 0, },
 				new Recipe { Id = 2, Name = "Woda z lodem", Description = "Wsypać lód do szklanki i zalać wodą.", TimeToMake = 1 },
 				new Recipe { Id = 3, Name = "Chleb z masłem", Description = "Pokroić chleb w kromki i posmarować je masłem.", TimeToMake = 3 },
 				new Recipe { Id = 4, Name = "Herbata czarna z cukrem", Description = "Herbatę zaparzyć zgodnie z instrukcją na opakowaniu, posłodzić", TimeToMake = 5},
