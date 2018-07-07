@@ -39,14 +39,14 @@ namespace Kulinarna.Repository
 				new Ingredient("sól") { Id = 15 }
 				);
 			builder.Entity<Recipe>().HasData(
-				new Recipe { Id = 1, Name = "Płatki z mlekiem", Description = "Płatki wsypać do miski i zalać mlekiem.", TimeToMake = 2, QualityRating = 0, },
-				new Recipe { Id = 2, Name = "Woda z lodem", Description = "Wsypać lód do szklanki i zalać wodą.", TimeToMake = 1 },
-				new Recipe { Id = 3, Name = "Chleb z masłem", Description = "Pokroić chleb w kromki i posmarować je masłem.", TimeToMake = 3 },
-				new Recipe { Id = 4, Name = "Herbata czarna z cukrem", Description = "Herbatę zaparzyć zgodnie z instrukcją na opakowaniu, posłodzić", TimeToMake = 5},
-				new Recipe { Id = 5, Name = "Zupka chińska", Description = "Zawartość opakowania wsypać do miski i zalać wrzącą wodą. Przykryć i odczekać 5 min.", TimeToMake = 7},
-				new Recipe { Id = 6, Name = "Kawa rozpuszczalna z mlekiem i cukrem", Description = "Kawę zalać wrzącą wodą, dodać mleko i cukier", TimeToMake = 5 },
-				new Recipe { Id = 7, Name = "Konserwa z kaszanką", Description = "Rozgrzać smalec na patelni, wrzucić kaszankę i konserwę turystyczną. Oddać psu.", TimeToMake = 10 },
-				new Recipe { Id = 8, Name = "Zupa parówkowa", Description = "Parówki zalać wrzątkiem. Przykryć i odczekać 5 min. Doprawić solą.", TimeToMake = 8 }
+				new Recipe { Id = 1, Name = "Płatki z mlekiem", Description = "Płatki wsypać do miski i zalać mlekiem.", TimeToMake = 2, QualityRating = 0, DifficultyRating = 0, NumberOfDifficultyRatings = 0, NumberOfQualityRatings = 0 },
+				new Recipe { Id = 2, Name = "Woda z lodem", Description = "Wsypać lód do szklanki i zalać wodą.", TimeToMake = 1, QualityRating = 0, DifficultyRating = 0, NumberOfDifficultyRatings = 0, NumberOfQualityRatings = 0 },
+				new Recipe { Id = 3, Name = "Chleb z masłem", Description = "Pokroić chleb w kromki i posmarować je masłem.", TimeToMake = 3, QualityRating = 0, DifficultyRating = 0, NumberOfDifficultyRatings = 0, NumberOfQualityRatings = 0 },
+				new Recipe { Id = 4, Name = "Herbata czarna z cukrem", Description = "Herbatę zaparzyć zgodnie z instrukcją na opakowaniu, posłodzić", TimeToMake = 5, QualityRating = 0, DifficultyRating = 0, NumberOfDifficultyRatings = 0, NumberOfQualityRatings = 0 },
+				new Recipe { Id = 5, Name = "Zupka chińska", Description = "Zawartość opakowania wsypać do miski i zalać wrzącą wodą. Przykryć i odczekać 5 min.", TimeToMake = 7, QualityRating = 0, DifficultyRating = 0, NumberOfDifficultyRatings = 0, NumberOfQualityRatings = 0 },
+				new Recipe { Id = 6, Name = "Kawa rozpuszczalna z mlekiem i cukrem", Description = "Kawę zalać wrzącą wodą, dodać mleko i cukier", TimeToMake = 5, QualityRating = 0, DifficultyRating = 0, NumberOfDifficultyRatings = 0, NumberOfQualityRatings = 0 },
+				new Recipe { Id = 7, Name = "Konserwa z kaszanką", Description = "Rozgrzać smalec na patelni, wrzucić kaszankę i konserwę turystyczną. Oddać psu.", TimeToMake = 10, QualityRating = 0, DifficultyRating = 0, NumberOfDifficultyRatings = 0, NumberOfQualityRatings = 0 },
+				new Recipe { Id = 8, Name = "Zupa parówkowa", Description = "Parówki zalać wrzątkiem. Przykryć i odczekać 5 min. Doprawić solą.", TimeToMake = 8, QualityRating = 0, DifficultyRating = 0, NumberOfDifficultyRatings = 0, NumberOfQualityRatings = 0 }
 				);
 			builder.Entity<RecipeIngredient>().HasData(
 				new RecipeIngredient { RecipeId = 1, IngredientId = 1, Amount = 60, AmountUnit = IngredientAmountUnit.g },

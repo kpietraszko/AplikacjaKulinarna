@@ -38,10 +38,20 @@ namespace Kulinarna.Services.Services
 			_recipeRepository.Update(newRecipe);
 			return new ServiceResult<int>(newRecipe.Id);
 		}
-		public ServiceResult<RecipeDTO[]> GetAllRecipes(int pageIndex, int pageSize) //dziala z paginacją
+		public ServiceResult<RecipeDTO[]> GetAllRecipes(RecipeFilterDTO filter, int pageIndex, int pageSize) //przetestować filtr
 		{
-			var recipes = _recipeRepository.GetAll(
-				r => r.RecipeIngredients, ri => ((RecipeIngredient)ri).Ingredient, pageIndex, pageSize);
+			IEnumerable<Recipe> recipes;
+			if (filter == null)
+			{
+				recipes = _recipeRepository.GetAll(
+					r => r.RecipeIngredients, ri => ((RecipeIngredient)ri).Ingredient, pageIndex, pageSize);
+			} else
+			{
+				recipes = _recipeRepository.GetAllBy(r => (filter.MaxTimeToMake == null || r.TimeToMake <= filter.MaxTimeToMake) &&
+					(filter.MinQualityRating == null || r.QualityRating >= filter.MinQualityRating) &&
+					(filter.MaxDifficultyRating == null || r.DifficultyRating <= filter.MaxDifficultyRating),
+					r => r.RecipeIngredients, ri => ((RecipeIngredient)ri).Ingredient, pageIndex, pageSize);
+			}
 
 			var mappedRecipes = _mapper.Map<RecipeDTO[]>(recipes);
 			return new ServiceResult<RecipeDTO[]>(mappedRecipes);
@@ -126,7 +136,7 @@ namespace Kulinarna.Services.Services
 			var recipes = _recipeRepository.GetAllBy(r => //MatchesSearchQuery(r, searchData), //oddzielna funkcja nie działa, więc muszę tak
 				(String.IsNullOrWhiteSpace(searchData.RecipeName) || r.Name.ToLower().Contains(searchData.RecipeName.ToLower())) &&
 				(searchData.MaxTimeToMake == null || r.TimeToMake == null || r.TimeToMake <= searchData.MaxTimeToMake) &&
-				searchData.Ingredients.Select(i => i.ToLower().Trim()).Except( 
+				searchData.Ingredients.Select(i => i.ToLower().Trim()).Except(
 					r.RecipeIngredients.Select(ri => ri.Ingredient.Name.ToLower())) //zwraca kolekcję składników niezawartych w tym przepisie
 					.Count() == 0,
 					r => r.RecipeIngredients, ri => ((RecipeIngredient) ri).Ingredient, pageIndex, pageSize);

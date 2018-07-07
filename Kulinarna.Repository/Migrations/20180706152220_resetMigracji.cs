@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Kulinarna.Repository.Migrations
 {
-    public partial class init : Migration
+    public partial class resetMigracji : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -45,6 +45,38 @@ namespace Kulinarna.Repository.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Ingredients",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Ingredients", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Recipes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(nullable: false),
+                    Description = table.Column<string>(nullable: false),
+                    TimeToMake = table.Column<int>(nullable: true),
+                    QualityRating = table.Column<float>(nullable: false),
+                    NumberOfQualityRatings = table.Column<int>(nullable: false),
+                    DifficultyRating = table.Column<float>(nullable: false),
+                    NumberOfDifficultyRatings = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Recipes", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -93,8 +125,8 @@ namespace Kulinarna.Repository.Migrations
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(maxLength: 128, nullable: false),
-                    ProviderKey = table.Column<string>(maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(nullable: false),
+                    ProviderKey = table.Column<string>(nullable: false),
                     ProviderDisplayName = table.Column<string>(nullable: true),
                     UserId = table.Column<string>(nullable: false)
                 },
@@ -138,8 +170,8 @@ namespace Kulinarna.Repository.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<string>(nullable: false),
-                    LoginProvider = table.Column<string>(maxLength: 128, nullable: false),
-                    Name = table.Column<string>(maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(nullable: false),
                     Value = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -151,6 +183,97 @@ namespace Kulinarna.Repository.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RecipesIngredients",
+                columns: table => new
+                {
+                    RecipeId = table.Column<int>(nullable: false),
+                    IngredientId = table.Column<int>(nullable: false),
+                    Amount = table.Column<decimal>(nullable: false),
+                    AmountUnit = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RecipesIngredients", x => new { x.RecipeId, x.IngredientId });
+                    table.ForeignKey(
+                        name: "FK_RecipesIngredients_Ingredients_IngredientId",
+                        column: x => x.IngredientId,
+                        principalTable: "Ingredients",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_RecipesIngredients_Recipes_RecipeId",
+                        column: x => x.RecipeId,
+                        principalTable: "Recipes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Ingredients",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 1, "płatki śniadaniowe" },
+                    { 15, "sól" },
+                    { 14, "parówka" },
+                    { 13, "kaszanka" },
+                    { 11, "smalec" },
+                    { 10, "kawa rozpuszczalna" },
+                    { 9, "zupka chińska" },
+                    { 12, "konserwa turystyczna" },
+                    { 7, "czarna herbata" },
+                    { 6, "lód" },
+                    { 5, "woda" },
+                    { 4, "masło" },
+                    { 3, "chleb biały" },
+                    { 2, "mleko" },
+                    { 8, "cukier" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Recipes",
+                columns: new[] { "Id", "Description", "DifficultyRating", "Name", "NumberOfDifficultyRatings", "NumberOfQualityRatings", "QualityRating", "TimeToMake" },
+                values: new object[,]
+                {
+                    { 7, "Rozgrzać smalec na patelni, wrzucić kaszankę i konserwę turystyczną. Oddać psu.", 0f, "Konserwa z kaszanką", 0, 0, 0f, 10 },
+                    { 1, "Płatki wsypać do miski i zalać mlekiem.", 0f, "Płatki z mlekiem", 0, 0, 0f, 2 },
+                    { 2, "Wsypać lód do szklanki i zalać wodą.", 0f, "Woda z lodem", 0, 0, 0f, 1 },
+                    { 3, "Pokroić chleb w kromki i posmarować je masłem.", 0f, "Chleb z masłem", 0, 0, 0f, 3 },
+                    { 4, "Herbatę zaparzyć zgodnie z instrukcją na opakowaniu, posłodzić", 0f, "Herbata czarna z cukrem", 0, 0, 0f, 5 },
+                    { 5, "Zawartość opakowania wsypać do miski i zalać wrzącą wodą. Przykryć i odczekać 5 min.", 0f, "Zupka chińska", 0, 0, 0f, 7 },
+                    { 6, "Kawę zalać wrzącą wodą, dodać mleko i cukier", 0f, "Kawa rozpuszczalna z mlekiem i cukrem", 0, 0, 0f, 5 },
+                    { 8, "Parówki zalać wrzątkiem. Przykryć i odczekać 5 min. Doprawić solą.", 0f, "Zupa parówkowa", 0, 0, 0f, 8 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "RecipesIngredients",
+                columns: new[] { "RecipeId", "IngredientId", "Amount", "AmountUnit" },
+                values: new object[,]
+                {
+                    { 1, 1, 60m, 0 },
+                    { 8, 5, 500m, 1 },
+                    { 7, 13, 2m, 5 },
+                    { 7, 12, 200m, 0 },
+                    { 7, 11, 1m, 4 },
+                    { 6, 8, 1m, 4 },
+                    { 6, 2, 20m, 1 },
+                    { 6, 10, 10m, 0 },
+                    { 6, 5, 1m, 2 },
+                    { 8, 14, 3m, 5 },
+                    { 5, 9, 1m, 5 },
+                    { 4, 8, 1m, 3 },
+                    { 4, 7, 1m, 3 },
+                    { 4, 5, 1m, 2 },
+                    { 3, 4, 30m, 0 },
+                    { 3, 3, 100m, 0 },
+                    { 2, 6, 20m, 0 },
+                    { 2, 5, 1m, 2 },
+                    { 1, 2, 1m, 2 },
+                    { 5, 5, 400m, 1 },
+                    { 8, 15, 5m, 0 }
                 });
 
             migrationBuilder.CreateIndex(
@@ -191,6 +314,11 @@ namespace Kulinarna.Repository.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RecipesIngredients_IngredientId",
+                table: "RecipesIngredients",
+                column: "IngredientId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -211,10 +339,19 @@ namespace Kulinarna.Repository.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "RecipesIngredients");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Ingredients");
+
+            migrationBuilder.DropTable(
+                name: "Recipes");
         }
     }
 }

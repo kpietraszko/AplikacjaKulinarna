@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Kulinarna.Api.Controllers
 {
 	[Route("api/[controller]")]
-	[ApiController] //isValid sprawdzane jest automatycznie i zwraca 400 //[FromBody] domyślne dla modeli klasowych
+	[ApiController] //isValid sprawdzane jest automatycznie i zwraca 400 //[FromBody] domyślne dla modeli klasowych, a [FromQuery] dla prostych
 	public class RecipeController : ControllerBase
 	{
 		private readonly IRecipeService _recipeService;
@@ -22,9 +22,9 @@ namespace Kulinarna.Api.Controllers
 		}
 		// GET: api/Recipe
 		[HttpGet]
-		public ActionResult<RecipeDTO[]> Get(int pageIndex = 0, int pageSize = 0) //pageIndex 0 to pierwsza strona
+		public ActionResult<RecipeDTO[]> Get([FromQuery]RecipeFilterDTO filter, int pageIndex = 0, int pageSize = 0) //pageIndex 0 to pierwsza strona
 		{
-			return this.HandleServiceResult(_recipeService.GetAllRecipes(pageIndex, pageSize));
+			return this.HandleServiceResult(_recipeService.GetAllRecipes(filter, pageIndex, pageSize));
 		}
 
 		// GET: api/Recipe/5
