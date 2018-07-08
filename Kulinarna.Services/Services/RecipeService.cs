@@ -47,6 +47,8 @@ namespace Kulinarna.Services.Services
 					r => r.RecipeIngredients, ri => ((RecipeIngredient)ri).Ingredient, pageIndex, pageSize);
 			} else
 			{
+				if (filter.MaxDifficultyRating == 0)
+					filter.MaxDifficultyRating = float.MaxValue;
 				recipes = _recipeRepository.GetAllBy(r => (filter.MaxTimeToMake == null || r.TimeToMake <= filter.MaxTimeToMake) &&
 					(filter.MinQualityRating == null || r.QualityRating >= filter.MinQualityRating) &&
 					(filter.MaxDifficultyRating == null || r.DifficultyRating <= filter.MaxDifficultyRating),
