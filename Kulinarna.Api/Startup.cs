@@ -29,14 +29,17 @@ namespace Kulinarna.Api
 			services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 			services.AddTransient<IRecipeService, RecipeService>();
 			services.AddTransient<IIngredientService, IngredientService>();
+			services.AddTransient<IUserService, UserService>();
 			services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-			//services.AddDefaultIdentity<IdentityUser>()
-			//	.AddEntityFrameworkStores<ApplicationDbContext>()
-			//	.AddDefaultTokenProviders();
-			services.AddIdentityCore<IdentityUser>(options => { });
-			new IdentityBuilder(typeof(IdentityUser), services)
-				.AddSignInManager<SignInManager<IdentityUser>>()
-				.AddEntityFrameworkStores<ApplicationDbContext>();
+			services.AddDefaultIdentity<IdentityUser>()
+				.AddEntityFrameworkStores<ApplicationDbContext>()
+				.AddDefaultTokenProviders();
+			services.Configure<IdentityOptions>(options =>
+				{
+					options.Password.RequireDigit = false;
+					options.Password.RequireNonAlphanumeric = false;
+					options.Password.RequireUppercase = false;
+				});
 
 			services.AddAutoMapper();
 			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);

@@ -1,4 +1,5 @@
 ﻿using Kulinarna.Data.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -24,13 +25,13 @@ namespace Kulinarna.Repository
 			builder.Entity<Ingredient>().HasData(
 				new Ingredient("płatki śniadaniowe") { Id = 1 },
 				new Ingredient("mleko") { Id = 2 },
-				new Ingredient("chleb biały") {  Id = 3 },
+				new Ingredient("chleb biały") { Id = 3 },
 				new Ingredient("masło") { Id = 4 },
 				new Ingredient("woda") { Id = 5 },
 				new Ingredient("lód") { Id = 6 },
 				new Ingredient("czarna herbata") { Id = 7 },
 				new Ingredient("cukier") { Id = 8 },
-				new Ingredient("zupka chińska") { Id = 9},
+				new Ingredient("zupka chińska") { Id = 9 },
 				new Ingredient("kawa rozpuszczalna") { Id = 10 },
 				new Ingredient("smalec") { Id = 11 },
 				new Ingredient("konserwa turystyczna") { Id = 12 },
@@ -50,7 +51,7 @@ namespace Kulinarna.Repository
 				);
 			builder.Entity<RecipeIngredient>().HasData(
 				new RecipeIngredient { RecipeId = 1, IngredientId = 1, Amount = 60, AmountUnit = IngredientAmountUnit.g },
-				new RecipeIngredient { RecipeId = 1, IngredientId = 2, Amount = 1, AmountUnit = IngredientAmountUnit.glass},
+				new RecipeIngredient { RecipeId = 1, IngredientId = 2, Amount = 1, AmountUnit = IngredientAmountUnit.glass },
 				new RecipeIngredient { RecipeId = 2, IngredientId = 5, Amount = 1, AmountUnit = IngredientAmountUnit.glass },
 				new RecipeIngredient { RecipeId = 2, IngredientId = 6, Amount = 20, AmountUnit = IngredientAmountUnit.g },
 				new RecipeIngredient { RecipeId = 3, IngredientId = 3, Amount = 100, AmountUnit = IngredientAmountUnit.g },
