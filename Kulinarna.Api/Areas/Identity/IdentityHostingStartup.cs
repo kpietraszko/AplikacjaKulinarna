@@ -16,6 +16,7 @@ namespace Kulinarna.Api.Areas.Identity
         {
             builder.ConfigureServices((context, services) => {
             });
+
         }
     }
 }

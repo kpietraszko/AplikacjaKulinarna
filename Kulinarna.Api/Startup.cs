@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Threading.Tasks;
 
 namespace Kulinarna.Api
 {
@@ -40,13 +41,18 @@ namespace Kulinarna.Api
 					options.Password.RequireNonAlphanumeric = false;
 					options.Password.RequireUppercase = false;
 				});
+			services.ConfigureApplicationCookie(options =>
+				options.Events.OnRedirectToLogin = context => {
+					context.Response.StatusCode = 401;
+					return Task.CompletedTask;
+				});
 
 			services.AddAutoMapper();
 			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-		public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+		public void Configure(IApplicationBuilder app, IHostingEnvironment env, UserManager<IdentityUser> userManager)
 		{
 			if (env.IsDevelopment())
 			{
@@ -60,6 +66,7 @@ namespace Kulinarna.Api
 			app.UseAuthentication();
 			//app.UseHttpsRedirection();
 			app.UseMvc();
+			IdentitySeed.SeedUser(userManager);
 		}
 	}
 }

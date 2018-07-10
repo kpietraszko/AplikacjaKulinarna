@@ -7,5 +7,8 @@ namespace Kulinarna.Services.Interfaces
 {
 	public interface IUserService
 	{
+		void SeedUser();
+		ServiceResult<bool> SignIn(string username, string password);
+		ServiceResult LogOut();
 	}
 }

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Kulinarna.Data.DTOs;
 using Kulinarna.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,6 +13,7 @@ namespace Kulinarna.Api.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController] //isValid sprawdzane jest automatycznie i zwraca 400 //[FromBody] domyślne dla modeli klasowych, a [FromQuery] dla prostych
+	[Authorize]
 	public class RecipeController : ControllerBase
 	{
 		private readonly IRecipeService _recipeService;
