@@ -19,6 +19,7 @@ namespace Kulinarna.Services.Services
 		public void SeedUser()
 		{
 			var user = new IdentityUser("testUser") { Email = "test@example.com"};
+			user.LockoutEnabled = false;
 			_userManager.CreateAsync(user, "qwerty").Wait();
 		}
 

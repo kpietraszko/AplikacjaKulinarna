@@ -40,6 +40,7 @@ namespace Kulinarna.Api
 					options.Password.RequireDigit = false;
 					options.Password.RequireNonAlphanumeric = false;
 					options.Password.RequireUppercase = false;
+					options.Lockout.AllowedForNewUsers = false;
 				});
 			services.ConfigureApplicationCookie(options =>
 				options.Events.OnRedirectToLogin = context =>
