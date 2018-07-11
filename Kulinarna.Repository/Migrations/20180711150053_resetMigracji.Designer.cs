@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Kulinarna.Repository.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180711135159_lockoutOff")]
-    partial class lockoutOff
+    [Migration("20180711150053_resetMigracji")]
+    partial class resetMigracji
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

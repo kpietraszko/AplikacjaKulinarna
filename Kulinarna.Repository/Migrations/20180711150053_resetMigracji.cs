@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Kulinarna.Repository.Migrations
 {
-    public partial class testUser2 : Migration
+    public partial class resetMigracji : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

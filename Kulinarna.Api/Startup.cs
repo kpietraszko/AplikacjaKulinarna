@@ -45,11 +45,14 @@ namespace Kulinarna.Api
 					options.Password.RequireUppercase = false;
 					options.Lockout.AllowedForNewUsers = false;
 				});
-			services.ConfigureApplicationCookie(options =>
+			services.ConfigureApplicationCookie(options => {
 				options.Events.OnRedirectToLogin = context =>
 				{
 					context.Response.StatusCode = 401;
 					return Task.CompletedTask;
+				};
+				options.Cookie.SecurePolicy = Microsoft.AspNetCore.Http.CookieSecurePolicy.SameAsRequest;
+				options.Cookie.SameSite = Microsoft.AspNetCore.Http.SameSiteMode.None;
 				});
 
 			services.AddAutoMapper();
