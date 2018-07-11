@@ -68,7 +68,7 @@ namespace Kulinarna.Api
 				.AllowAnyMethod()
 				.AllowCredentials());
 			app.UseAuthentication();
-			//app.UseHttpsRedirection();
+			app.UseHttpsRedirection();
 			app.UseMvc();
 			IdentitySeed.SeedUser(userManager);
 		}
