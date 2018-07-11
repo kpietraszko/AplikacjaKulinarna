@@ -26,7 +26,10 @@ namespace Kulinarna.Api
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
-			services.AddCors();
+			services.AddCors(options => options.AddDefaultPolicy(config => config.WithOrigins("http://localhost:3000", "https://aplikacjakulinarna.azurewebsites.net", "http://aplikacjakulinarna.azurewebsites.net")
+				.AllowAnyHeader()
+				.AllowAnyMethod()
+				.AllowCredentials()));
 			services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 			services.AddTransient<IRecipeService, RecipeService>();
 			services.AddTransient<IIngredientService, IngredientService>();
