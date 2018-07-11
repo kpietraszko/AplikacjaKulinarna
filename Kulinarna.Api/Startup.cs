@@ -64,7 +64,7 @@ namespace Kulinarna.Api
 			{
 				app.UseHsts();
 			}
-			app.UseCors(builder => builder.WithOrigins("http://localhost:3000", "https://aplikacjakulinarna.azurewebsites.net")
+			app.UseCors(builder => builder.WithOrigins("http://localhost:3000", "https://aplikacjakulinarna.azurewebsites.net", "http://aplikacjakulinarna.azurewebsites.net")
 				.AllowAnyHeader()
 				.AllowAnyMethod()
 				.AllowCredentials());
