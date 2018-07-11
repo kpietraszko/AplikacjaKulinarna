@@ -42,7 +42,8 @@ namespace Kulinarna.Api
 					options.Password.RequireUppercase = false;
 				});
 			services.ConfigureApplicationCookie(options =>
-				options.Events.OnRedirectToLogin = context => {
+				options.Events.OnRedirectToLogin = context =>
+				{
 					context.Response.StatusCode = 401;
 					return Task.CompletedTask;
 				});
@@ -62,7 +63,10 @@ namespace Kulinarna.Api
 			{
 				app.UseHsts();
 			}
-			app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()); //TODO: ograniczyć
+			app.UseCors(builder => builder.WithOrigins("http://localhost:3000", "https://aplikacjakulinarna.azurewebsites.net")
+				.AllowAnyHeader()
+				.AllowAnyMethod()
+				.AllowCredentials());
 			app.UseAuthentication();
 			//app.UseHttpsRedirection();
 			app.UseMvc();
